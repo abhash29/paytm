@@ -7,6 +7,7 @@ import { JWT_SECRET } from "../config.js";
 import {z} from 'zod';
 import authMiddleWare from "../middleware.js";
 
+
 //Zod
 const signupBody = z.object({
     username: z.email(),
