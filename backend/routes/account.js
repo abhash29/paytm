@@ -7,7 +7,7 @@ import { Account } from "../db.js";
 //Get the balance
 router.get("/balance", authMiddleWare, async (req, res) => {
     const account = await Account.findOne({userId: req.userId});
-    res.json({balance: account.balance});
+    res.json({balance: account.balance.toFixed(2)});
 });
 
 //transfer -> start session

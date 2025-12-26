@@ -8,6 +8,7 @@ import {z} from 'zod';
 import authMiddleWare from "../middleware.js";
 
 
+
 //Zod
 const signupBody = z.object({
     username: z.email(),
@@ -61,7 +62,7 @@ router.post("/signup", async (req, res) => {
 router.post("/signin", async (req, res) => {
     const {success} = signinBody.safeParse(req.body);
     if(!success){
-        return res.status(411).json({msg: "Incorrect inputs"});
+        return res.status(411).json({msg: "Incorrect inputs not safe parse"});
     }
 
     const {username, password} = req.body;
@@ -92,7 +93,7 @@ router.put('/', authMiddleWare, async (req, res) => {
 })
 
 //4. get users
-router.get("/bulk", async (req, res) => {
+router.get("/bulk", authMiddleWare, async (req, res) => {
     const filter = req.query.filter || "";
 
     try {
@@ -115,6 +116,15 @@ router.get("/bulk", async (req, res) => {
         res.status(500).json({ msg: "Server error" });
     }
 });
+
+//me route
+router.get('/me', authMiddleWare, async (req, res) => {
+   const user = await User.findById(req.userId).select("firstName");
+   if(!user){
+    return res.status(401).json({msg: "User not found"});
+   }
+    res.status(200).json({firstName: user.firstName});
+})
 
 
 export default router;

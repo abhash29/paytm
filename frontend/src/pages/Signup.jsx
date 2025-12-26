@@ -41,7 +41,9 @@ function Signup() {
 
         <div className="text-sm text-center text-gray-600 mt-4">
           Already have an account?
-          <span className="text-blue-600 cursor-pointer font-medium hover:underline ml-1">
+          <span className="text-blue-600 cursor-pointer font-medium hover:underline ml-1"
+            onClick={() => {navigate('/signin')}}
+          >
             Sign in
           </span>
         </div>
